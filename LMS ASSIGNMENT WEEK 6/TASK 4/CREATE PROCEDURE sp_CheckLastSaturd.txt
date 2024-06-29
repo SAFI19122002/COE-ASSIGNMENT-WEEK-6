@@ -1,0 +1,12 @@
+CREATE PROCEDURE sp_CheckLastSaturday
+AS
+BEGIN
+    DECLARE @Today DATETIME = GETDATE();
+    DECLARE @LastDayOfMonth DATETIME = EOMONTH(@Today);
+    DECLARE @LastSaturday DATETIME = DATEADD(DAY, -((DATEPART(WEEKDAY, @LastDayOfMonth) + 1) % 7), @LastDayOfMonth);
+    
+    IF @Today = @LastSaturday
+        SELECT 'true' AS IsLastSaturday;
+    ELSE
+        SELECT 'false' AS IsLastSaturday;
+END
